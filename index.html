@@ -1,0 +1,2274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f7c51e" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#101a2b" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Albuquerque">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="description" content="A cartoon word game. Six categories, five word lengths, one wrong turn.">
+<title>Left Turn at Albuquerque</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='31' fill='%232e86c8'/%3E%3Ccircle cx='32' cy='32' r='23' fill='%23e23a2e'/%3E%3Ccircle cx='32' cy='32' r='15' fill='%23f0812a'/%3E%3Ccircle cx='32' cy='32' r='7' fill='%23f7c51e'/%3E%3C/svg%3E">
+<!-- Add to Home Screen. Safari needs a real PNG at a real URL here — it does
+     not accept a data: URI — so this is the one companion file. Keep it beside
+     index.html when hosting; the game itself runs fine without it. -->
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<style>
+  /* Luckiest Guy (Google Fonts, Apache License 2.0) is embedded rather than
+     linked so the whole game is one self-contained file: no network, no
+     font-swap flash, works in aeroplane mode forever. */
+  @font-face {
+    font-family: 'Luckiest Guy';
+    font-style: normal;
+    font-weight: 400;
+    font-display: block;
+    src: url(data:font/woff2;base64,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) format('woff2');
+  }
+  :root {
+    /* ---- Saturday-morning palette: cel paint, ink lines, title-card rings ---- */
+    --ink: #17110e;
+    --red: #e23a2e;
+    --orange: #f0812a;
+    --yellow: #f7c51e;
+    --blue: #2e86c8;
+    --green: #35943f;
+    --grape: #7b4fa0;
+
+    --ring-1: #f7c51e;
+    --ring-2: #f0812a;
+    --ring-3: #e23a2e;
+    --ring-4: #2e86c8;
+
+    --card: #fff6e0;
+    --card-2: #ffeec9;
+    --text: #17110e;
+    --title: #e23a2e;
+    --title-shadow: #f7c51e;
+    --subtitle: #1b6ca8;
+
+    --cell-border: #b9a687;
+    --cell-border-filled: var(--ink);
+    --cell-bg: #fffdf4;
+    --cell-text: #17110e;
+
+    --key-bg: #ffe9b0;
+    --key-bg-hover: #ffdc8a;
+    --key-text: #17110e;
+
+    --correct: #35943f;
+    --present: #f7c51e;
+    --absent: #7c6f64;
+    --on-correct: #ffffff;
+    --on-present: #17110e;
+    --on-absent: #ffffff;
+
+    --line: 3px;
+    --hard: rgba(23, 17, 14, 0.9);
+    --modal-overlay: rgba(23, 17, 14, 0.55);
+    --modal-bg: #fff6e0;
+    --bar-bg: #f2dfb4;
+    --icon-hover: rgba(226, 58, 46, 0.14);
+    --chip-bg: #ffe9b0;
+    --panel: rgba(23, 17, 14, 0.86);
+  }
+
+  :root[data-theme="dark"] {
+    /* ---- Midnight desert: same cartoon, after the last showing ---- */
+    --ink: #05070c;
+    --red: #ef5a4c;
+    --orange: #f0913f;
+    --yellow: #f8cf3c;
+    --blue: #4aa3e0;
+    --green: #4aa855;
+
+    --ring-1: #2c2a17;
+    --ring-2: #33220f;
+    --ring-3: #331317;
+    --ring-4: #0f2035;
+
+    --card: #17233a;
+    --card-2: #121c2f;
+    --text: #ffeecd;
+    --title: #f8cf3c;
+    --title-shadow: #e23a2e;
+    --subtitle: #7cc0ef;
+
+    --cell-border: #3d4d69;
+    --cell-border-filled: #ffeecd;
+    --cell-bg: #101a2b;
+    --cell-text: #ffeecd;
+
+    --key-bg: #253550;
+    --key-bg-hover: #2f4364;
+    --key-text: #ffeecd;
+
+    --correct: #3f9a4a;
+    --present: #d9ac1d;
+    --absent: #46505f;
+    --on-correct: #ffffff;
+    --on-present: #17110e;
+    --on-absent: #e9dcc4;
+
+    --hard: rgba(0, 0, 0, 0.85);
+    --modal-overlay: rgba(3, 6, 12, 0.7);
+    --modal-bg: #17233a;
+    --bar-bg: #253550;
+    --icon-hover: rgba(248, 207, 60, 0.16);
+    --chip-bg: #253550;
+    --panel: rgba(5, 10, 20, 0.9);
+  }
+  * { box-sizing: border-box; }
+  /* An author `display` rule beats the UA stylesheet's [hidden] rule, so make
+     the attribute authoritative — #distribution is display:flex. */
+  [hidden] { display: none !important; }
+  html { overflow-x: hidden; -webkit-text-size-adjust: 100%; }
+  html, body { margin: 0; min-height: 100vh; min-height: 100dvh; }
+
+  body {
+    /* Vertical scroll stays available as a safety net on short screens;
+       horizontal scroll is suppressed above. */
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    font-weight: 700;
+    background-color: var(--ring-1);
+    background-image: repeating-radial-gradient(
+      circle at 50% 40%,
+      var(--ring-1) 0 5.4vmax,
+      var(--ring-2) 5.4vmax 10.8vmax,
+      var(--ring-3) 10.8vmax 16.2vmax,
+      var(--ring-4) 16.2vmax 21.6vmax
+    );
+    background-attachment: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    color: var(--text);
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .prop-layer {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  .game {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 760px;
+    background: linear-gradient(180deg, var(--card) 0%, var(--card-2) 100%);
+    border: var(--line) solid var(--ink);
+    border-radius: 22px;
+    padding: 20px 24px 20px;
+    box-shadow: 8px 9px 0 var(--hard);
+    text-align: center;
+    /* Kills accidental double-tap zoom while tapping out a word. Pinch zoom
+       still works, so this doesn't cost anyone their zoom. */
+    touch-action: manipulation;
+  }
+
+  /* ---- Top bar ---- */
+  .topbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .topbar h1 {
+    flex: 1 1 260px;
+    text-align: center;
+    margin: 0 0 2px;
+    font-family: 'Luckiest Guy', 'Impact', 'Haettenschweiler', 'Arial Black', sans-serif;
+    font-weight: 400;
+    font-size: clamp(27px, 4.6vw, 54px);
+    line-height: 1.08;
+    letter-spacing: 1px;
+    color: var(--title);
+    -webkit-text-stroke: 2px var(--ink);
+    paint-order: stroke fill;
+    text-shadow: 3px 3px 0 var(--title-shadow), 5px 5px 0 var(--ink);
+  }
+  .action-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .pill-btn, .pill-ghost {
+    border: var(--line) solid var(--ink);
+    border-radius: 999px;
+    padding: 9px 17px;
+    font-size: 14px;
+    font-weight: 900;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-family: inherit;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    touch-action: manipulation;
+    box-shadow: 3px 3px 0 var(--hard);
+    transition: transform 0.06s, box-shadow 0.06s, background 0.15s;
+  }
+  .pill-btn { background: var(--red); color: #fff; }
+  .pill-ghost { background: var(--yellow); color: var(--ink); }
+  .pill-btn:hover { background: #cf3125; }
+  .pill-ghost:hover { background: #ffd84f; }
+  .pill-btn:active, .pill-ghost:active, .icon-btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0 var(--hard);
+  }
+  .pill-btn svg, .pill-ghost svg { display: block; }
+
+  .icon-btn {
+    width: 42px;
+    height: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--blue);
+    border: var(--line) solid var(--ink);
+    color: #fff;
+    cursor: pointer;
+    padding: 0;
+    border-radius: 50%;
+    touch-action: manipulation;
+    box-shadow: 3px 3px 0 var(--hard);
+    transition: transform 0.06s, box-shadow 0.06s, background 0.15s;
+    font-family: inherit;
+  }
+  .icon-btn:hover { background: #1b6ca8; }
+  .icon-btn svg { display: block; }
+  :root[data-theme="dark"] .icon-sun  { display: block; }
+  :root[data-theme="dark"] .icon-moon { display: none; }
+  :root:not([data-theme="dark"]) .icon-sun  { display: none; }
+  :root:not([data-theme="dark"]) .icon-moon { display: block; }
+
+  .subtitle {
+    margin: 6px 0 8px;
+    font-size: 14px;
+    color: var(--subtitle);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  /* The subtitle's length chip is a button: it opens the picker. */
+  .len-chip {
+    background: var(--chip-bg);
+    border: 2px solid var(--ink);
+    color: var(--ink);
+    border-radius: 999px;
+    padding: 3px 11px;
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-family: inherit;
+    cursor: pointer;
+    touch-action: manipulation;
+    box-shadow: 2px 2px 0 var(--hard);
+    transition: transform 0.06s, box-shadow 0.06s;
+  }
+  .len-chip:active { transform: translate(1px, 1px); box-shadow: 1px 1px 0 var(--hard); }
+  .len-chip .pin { color: var(--red); }
+
+  #message {
+    min-height: 24px;
+    font-size: 15px;
+    font-weight: 900;
+    letter-spacing: 0.5px;
+    color: var(--red);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+  }
+
+  /* ---- Board ----
+     Tile size is derived from the answer's length (--cols), the number of
+     tries (--rows) and the live viewport, so a 4x6 board and an 8x8 board
+     both land above the keyboard without measuring anything in JS.
+     Media queries below only ever retune the four knobs. */
+  #board {
+    --cols: 5;          /* letters in the answer  (set by JS) */
+    --rows: 6;          /* guesses allowed        (set by JS) */
+    --gap: 7px;
+    --wpad: 62px;       /* page chrome either side of the board */
+    --vb: 46;           /* share of viewport height the board may use, in % */
+    --cap: 66px;        /* largest a tile ever gets */
+    --floor: 30px;      /* smallest a tile gets; below this the page scrolls */
+    --vbudget: calc(var(--vb) * 1vh);
+    --cell: max(var(--floor), min(
+      calc((100vw - var(--wpad) - (var(--cols) - 1) * var(--gap)) / var(--cols)),
+      calc((var(--vbudget) - (var(--rows) - 1) * var(--gap)) / var(--rows)),
+      var(--cap)
+    ));
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap);
+    align-items: center;
+    margin: 0 auto 14px;
+  }
+  .row {
+    display: grid;
+    grid-template-columns: repeat(var(--cols), var(--cell));
+    gap: var(--gap);
+  }
+  .cell {
+    width: var(--cell);
+    height: var(--cell);
+    border: var(--line) solid var(--cell-border);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Luckiest Guy', 'Impact', 'Arial Black', sans-serif;
+    font-weight: 400;
+    font-size: calc(var(--cell) * 0.6);
+    line-height: 1;
+    padding-top: calc(var(--cell) * 0.06);
+    text-transform: uppercase;
+    background: var(--cell-bg);
+    color: var(--cell-text);
+    transition: border-color 0.12s, transform 0.1s;
+  }
+  /* Safari's toolbar shrinks the visible viewport; dvh follows it, vh doesn't. */
+  @supports (height: 1dvh) {
+    #board { --vbudget: calc(var(--vb) * 1dvh); }
+  }
+  .cell.filled {
+    border-color: var(--cell-border-filled);
+    animation: pop 0.12s ease;
+  }
+  @keyframes pop { 50% { transform: scale(1.09); } }
+  .cell.flip { animation: flip 0.5s ease forwards; }
+  @keyframes flip {
+    0%   { transform: rotateX(0); }
+    50%  { transform: rotateX(90deg); }
+    100% { transform: rotateX(0); }
+  }
+  .cell.correct { background: var(--correct); border-color: var(--ink); color: var(--on-correct); }
+  .cell.present { background: var(--present); border-color: var(--ink); color: var(--on-present); }
+  .cell.absent  { background: var(--absent);  border-color: var(--ink); color: var(--on-absent); }
+
+  .row.shake { animation: shake 0.5s; }
+  @keyframes shake {
+    10%, 90% { transform: translateX(-1px); }
+    20%, 80% { transform: translateX(2px); }
+    30%, 50%, 70% { transform: translateX(-6px); }
+    40%, 60% { transform: translateX(6px); }
+  }
+
+  .row.win-bounce .cell { animation: bounce 0.6s ease var(--d, 0s); }
+  @keyframes bounce {
+    0%, 20%   { transform: translateY(0); }
+    40%       { transform: translateY(-26px); }
+    50%       { transform: translateY(5px); }
+    60%       { transform: translateY(-10px); }
+    80%, 100% { transform: translateY(0); }
+  }
+
+  #keyboard {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    margin: 0 auto;
+    max-width: 620px;
+  }
+  .kb-row { display: flex; justify-content: center; gap: 5px; }
+  .key {
+    flex: 1;
+    min-width: 0;
+    height: 56px;
+    padding: 0 4px;
+    border: var(--line) solid var(--ink);
+    border-radius: 9px;
+    background: var(--key-bg);
+    color: var(--key-text);
+    font-family: inherit;
+    font-weight: 900;
+    font-size: 20px;
+    cursor: pointer;
+    text-transform: uppercase;
+    box-shadow: 0 3px 0 var(--hard);
+    transition: background 0.12s, transform 0.05s, box-shadow 0.05s;
+    touch-action: manipulation;
+  }
+  .key.wide { flex: 1.7; font-size: 13px; letter-spacing: 0.5px; }
+  .key:hover { background: var(--key-bg-hover); }
+  .key:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--hard); }
+  .key.correct { background: var(--correct); color: var(--on-correct); }
+  .key.present { background: var(--present); color: var(--on-present); }
+  .key.absent  { background: var(--absent);  color: var(--on-absent); }
+
+  /* ---- Cartoon props (per-guess burst around the edges) ---- */
+  .edge-prop {
+    position: absolute;
+    transform: scale(0) rotate(-90deg);
+    animation: bloom 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    will-change: transform;
+    filter: drop-shadow(2px 3px 0 rgba(23, 17, 14, 0.35));
+  }
+  @keyframes bloom {
+    0%   { transform: scale(0) rotate(-90deg); opacity: 0; }
+    40%  { opacity: 1; }
+    100% { transform: scale(1) rotate(var(--rot, 0deg)); opacity: 1; }
+  }
+  .edge-prop svg { width: 100%; height: 100%; display: block; }
+
+  /* ---- Win takeover ---- */
+  #win-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    pointer-events: none;
+    display: none;
+    overflow: hidden;
+  }
+  #win-overlay.active { display: block; }
+
+  .win-prop {
+    position: absolute;
+    transform: scale(0);
+    will-change: transform;
+    filter: drop-shadow(3px 4px 0 rgba(23, 17, 14, 0.3));
+    animation:
+      winGrow 0.7s var(--grow-delay, 0ms) cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+      winShrink 0.6s var(--retract-delay, 2000ms) cubic-bezier(0.5, 0, 0.75, 0) forwards;
+  }
+  .win-prop svg { width: 100%; height: 100%; display: block; }
+  @keyframes winGrow {
+    0%   { transform: scale(0) rotate(-90deg); }
+    100% { transform: scale(1) rotate(var(--rot, 0deg)); }
+  }
+  @keyframes winShrink {
+    0%   { transform: scale(1) rotate(var(--rot, 0deg)); }
+    100% { transform: scale(0) rotate(calc(var(--rot, 0deg) + 90deg)); }
+  }
+
+  .win-message {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    opacity: 0;
+    transform: scale(0.85);
+    transition: opacity 0.6s ease, transform 0.9s cubic-bezier(0.34, 1.56, 0.64, 1);
+    z-index: 11;
+    pointer-events: none;
+    padding: 0 16px;
+  }
+  .win-message.show { opacity: 1; transform: scale(1); }
+  .win-panel {
+    background: var(--panel);
+    border: var(--line) solid var(--ink);
+    border-radius: 22px;
+    padding: 24px 34px;
+    box-shadow: 8px 9px 0 rgba(0, 0, 0, 0.5);
+    max-width: calc(100vw - 32px);
+  }
+  .win-panel .line1 {
+    font-family: 'Luckiest Guy', 'Impact', 'Arial Black', sans-serif;
+    font-weight: 400;
+    color: var(--yellow);
+    font-size: clamp(30px, 6.4vw, 66px);
+    line-height: 1.1;
+    letter-spacing: 1px;
+    -webkit-text-stroke: 2px var(--ink);
+    paint-order: stroke fill;
+    text-shadow: 3px 3px 0 var(--red);
+  }
+  .win-panel .line2 {
+    color: #fff6e0;
+    font-size: clamp(20px, 4.2vw, 42px);
+    font-weight: 900;
+    letter-spacing: 5px;
+    margin-top: 10px;
+  }
+  .win-panel .line3 {
+    color: var(--yellow);
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 8px;
+    opacity: 0.85;
+  }
+
+  .win-actions {
+    position: absolute;
+    left: 50%;
+    bottom: calc(9% + env(safe-area-inset-bottom));
+    transform: translateX(-50%) scale(0.9);
+    display: flex;
+    gap: 10px;
+    padding: 11px 14px;
+    background: var(--panel);
+    border: var(--line) solid var(--ink);
+    border-radius: 999px;
+    box-shadow: 6px 7px 0 rgba(0, 0, 0, 0.45);
+    opacity: 0;
+    transition: opacity 0.45s ease, transform 0.45s ease;
+    z-index: 12;
+    pointer-events: auto;
+  }
+  .win-actions.show { opacity: 1; transform: translateX(-50%) scale(1); }
+  .win-btn {
+    padding: 12px 22px;
+    background: var(--yellow);
+    color: var(--ink);
+    border: var(--line) solid var(--ink);
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 900;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    flex: 0 0 auto;
+    cursor: pointer;
+    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.8);
+    font-family: inherit;
+    touch-action: manipulation;
+    transition: transform 0.06s, box-shadow 0.06s;
+  }
+  .win-btn.alt { background: var(--red); color: #fff; }
+  .win-btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.8); }
+
+  /* ---- Modals ---- */
+  .modal { position: fixed; inset: 0; z-index: 100; display: none; }
+  .modal.active { display: block; }
+  .modal-backdrop { position: absolute; inset: 0; background: var(--modal-overlay); }
+  .modal-card {
+    position: relative;
+    margin: calc(20px + env(safe-area-inset-top)) auto calc(20px + env(safe-area-inset-bottom));
+    max-width: 620px;
+    width: calc(100% - 32px);
+    max-height: calc(100dvh - 40px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    background: var(--modal-bg);
+    color: var(--text);
+    border: var(--line) solid var(--ink);
+    border-radius: 20px;
+    padding: 26px 20px 22px;
+    box-shadow: 8px 9px 0 var(--hard);
+  }
+  /* Focused programmatically when the dialog opens; no ring needed for that. */
+  .modal-card:focus { outline: none; }
+  .modal-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: var(--red);
+    border: 2px solid var(--ink);
+    cursor: pointer;
+    width: 34px;
+    height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    border-radius: 50%;
+    touch-action: manipulation;
+  }
+  .modal-close:active { transform: translate(1px, 1px); }
+  .modal h2 {
+    margin: 0 0 16px;
+    text-align: center;
+    font-family: 'Luckiest Guy', 'Impact', 'Arial Black', sans-serif;
+    font-weight: 400;
+    font-size: 25px;
+    letter-spacing: 1px;
+    color: var(--title);
+    -webkit-text-stroke: 1.5px var(--ink);
+    paint-order: stroke fill;
+    text-shadow: 2px 2px 0 var(--title-shadow);
+    padding: 0 30px;
+  }
+  .modal h3 {
+    margin: 18px 0 10px;
+    text-align: center;
+    font-size: 12px;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: var(--text);
+    opacity: 0.75;
+    font-weight: 900;
+  }
+
+  /* Category picker */
+  #topics-grid { display: flex; flex-direction: column; gap: 9px; }
+  .cat-btn {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    width: 100%;
+    padding: 13px 14px;
+    border: var(--line) solid var(--ink);
+    border-radius: 15px;
+    background: var(--cell-bg);
+    color: var(--text);
+    cursor: pointer;
+    text-align: left;
+    font-family: inherit;
+    box-shadow: 3px 3px 0 var(--hard);
+    transition: transform 0.06s, box-shadow 0.06s, background 0.15s;
+  }
+  .cat-btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--hard); }
+  .cat-btn.active { background: var(--yellow); color: var(--ink); }
+  .cat-btn.active .cat-name { color: var(--ink); }
+  .cat-btn.done { background: var(--correct); color: #fff; }
+  .cat-btn.done .cat-name, .cat-btn.done .cat-hint { color: #fff; }
+  .cat-icon { font-size: 27px; line-height: 1; flex: 0 0 auto; }
+  .cat-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .cat-name {
+    font-family: 'Luckiest Guy', 'Impact', 'Arial Black', sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    letter-spacing: 0.5px;
+    color: var(--red);
+  }
+  .cat-hint { font-size: 12.5px; font-weight: 800; font-style: italic; opacity: 0.85; }
+  .cat-prog { font-size: 12px; font-weight: 900; letter-spacing: 0.6px; opacity: 0.9; }
+
+  /* Length picker + stats scope switcher share the same pill-row look.
+     Each lays out as "one wide pill across the top, then an even row" so the
+     last option never wraps onto a ragged second line. */
+  /* Column counts are set in JS from the number of options, so adding a
+     category or a new word length can't leave a ragged trailing row. */
+  .pick-row { display: grid; gap: 6px; justify-items: stretch; }
+  #length-grid { grid-template-columns: repeat(5, 1fr); }
+  #stats-scope-grid { grid-template-columns: repeat(6, 1fr); }
+  .pick:disabled { opacity: 0.4; cursor: not-allowed; box-shadow: none; }
+  .pick-row .pick.wide { grid-column: 1 / -1; }
+  .pick {
+    min-width: 0;
+    min-height: 42px;
+    padding: 7px 4px;
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+    background: var(--cell-bg);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 900;
+    letter-spacing: 0.5px;
+    line-height: 1.15;
+    cursor: pointer;
+    touch-action: manipulation;
+    box-shadow: 2px 2px 0 var(--hard);
+    transition: transform 0.06s, box-shadow 0.06s, background 0.15s;
+  }
+  .pick.wide { text-transform: uppercase; font-size: 13px; }
+  .pick:active { transform: translate(1px, 1px); box-shadow: 1px 1px 0 var(--hard); }
+  .pick.on { background: var(--yellow); color: var(--ink); }
+  .pick .sub { display: block; font-size: 9.5px; letter-spacing: 0.4px; opacity: 0.65; margin-top: 1px; }
+  .pick-note {
+    margin: 8px 0 0;
+    font-size: 11.5px;
+    font-weight: 800;
+    text-align: center;
+    opacity: 0.7;
+    line-height: 1.35;
+  }
+
+  /* Found words */
+  .found-section {
+    border: 2px solid var(--ink);
+    border-radius: 14px;
+    padding: 11px 12px;
+    margin-bottom: 10px;
+    background: var(--cell-bg);
+  }
+  .found-section.current { box-shadow: 3px 3px 0 var(--hard); }
+  .found-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    font-weight: 900;
+    font-size: 14.5px;
+    margin-bottom: 9px;
+    letter-spacing: 0.4px;
+  }
+  .found-count {
+    font-size: 12.5px;
+    color: var(--ink);
+    background: var(--chip-bg);
+    border: 2px solid var(--ink);
+    padding: 2px 9px;
+    border-radius: 999px;
+    flex: 0 0 auto;
+  }
+  .found-count.done { background: var(--correct); color: #fff; }
+  .len-group { display: flex; align-items: baseline; gap: 7px; margin-bottom: 6px; }
+  .len-tag {
+    font-size: 11px;
+    font-weight: 900;
+    opacity: 0.6;
+    min-width: 14px;
+    flex: 0 0 auto;
+    letter-spacing: 0.5px;
+  }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip {
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 1.2px;
+    padding: 4px 8px;
+    border-radius: 7px;
+    border: 2px solid var(--ink);
+  }
+  .chip.got { background: var(--correct); color: #fff; }
+  .chip.locked { background: var(--bar-bg); color: var(--text); opacity: 0.65; }
+
+  /* Stats */
+  .stats-numbers { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }
+  .stat { text-align: center; padding: 4px 2px; }
+  .stat-num {
+    font-family: 'Luckiest Guy', 'Impact', 'Arial Black', sans-serif;
+    font-weight: 400;
+    font-size: 31px;
+    color: var(--text);
+    line-height: 1.1;
+  }
+  .stat-label { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.4px; opacity: 0.75; margin-top: 3px; line-height: 1.2; font-weight: 900; }
+
+  #distribution { display: flex; flex-direction: column; gap: 4px; margin-bottom: 16px; }
+  .dist-row {
+    display: grid;
+    grid-template-columns: 16px 1fr;
+    gap: 7px;
+    align-items: center;
+    font-size: 13px;
+    font-weight: 900;
+    color: var(--text);
+  }
+  .dist-bar {
+    background: var(--bar-bg);
+    border: 2px solid var(--ink);
+    height: 22px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 7px;
+    color: var(--text);
+    min-width: 26px;
+    font-size: 12px;
+    transition: width 0.5s ease;
+  }
+  .dist-bar.highlight { background: var(--correct); color: #fff; }
+  .stats-scope {
+    font-size: 11.5px;
+    font-weight: 900;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    text-align: center;
+    margin: 0 0 12px;
+    opacity: 0.8;
+    min-height: 15px;
+  }
+  .stats-empty { text-align: center; font-size: 12.5px; font-weight: 800; opacity: 0.6; margin: 0 0 16px; }
+  .share-btn {
+    display: block;
+    margin: 4px auto 0;
+    padding: 12px 30px;
+    background: var(--red);
+    color: #fff;
+    border: var(--line) solid var(--ink);
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 900;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-family: inherit;
+    box-shadow: 3px 3px 0 var(--hard);
+    transition: transform 0.06s, box-shadow 0.06s, opacity 0.15s;
+    touch-action: manipulation;
+  }
+  .share-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .share-btn:not(:disabled):active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--hard); }
+
+  .footer-note {
+    margin: 14px 0 0;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    opacity: 0.55;
+  }
+
+  /* ---- Responsiveness: phone-first, then trims for short windows ---- */
+
+  /* Laptop-height windows: trim the chrome so the keyboard stays in view
+     even for an 8x8 board. */
+  @media (min-width: 621px) and (max-height: 900px) {
+    .topbar h1 { font-size: clamp(24px, 3.6vw, 40px); }
+    #board { --vb: 42; --cap: 56px; }
+    .key { height: 48px; font-size: 19px; }
+    .footer-note { display: none; }
+  }
+
+  @media (max-width: 620px) {
+    body {
+      align-items: flex-start;
+      padding: calc(6px + env(safe-area-inset-top))
+               calc(7px + env(safe-area-inset-right))
+               calc(8px + env(safe-area-inset-bottom))
+               calc(7px + env(safe-area-inset-left));
+    }
+    .game { padding: 11px 9px 12px; border-radius: 17px; box-shadow: 5px 6px 0 var(--hard); }
+    .topbar { gap: 6px; }
+    .topbar h1 {
+      flex-basis: 100%;
+      order: -1;
+      font-size: clamp(21px, 7.4vw, 36px);
+      -webkit-text-stroke-width: 1.5px;
+      text-shadow: 2px 2px 0 var(--title-shadow), 3.5px 3.5px 0 var(--ink);
+    }
+    .pill-btn, .pill-ghost { padding: 8px 12px; font-size: 12px; gap: 5px; }
+    .icon-btn { width: 38px; height: 38px; }
+    /* Collapse secondary labels so the action bar stays one row. */
+    #topics-btn .btn-label, #found-btn .btn-label { display: none; }
+    #topics-btn, #found-btn { padding: 8px 10px; }
+    .subtitle { font-size: 11.5px; letter-spacing: 1.2px; margin: 5px 0 5px; gap: 6px; }
+    .len-chip { font-size: 10.5px; padding: 2px 8px; }
+    #message { min-height: 19px; font-size: 13px; margin-bottom: 4px; }
+    #board { --gap: 5px; --wpad: 34px; --vb: 50; --cap: 58px; margin-bottom: 10px; }
+    #keyboard { gap: 6px; }
+    .kb-row { gap: 4px; }
+    .key { height: 50px; font-size: 18px; border-radius: 8px; }
+    .key.wide { font-size: 11.5px; }
+    .modal-card { padding: 24px 14px 20px; width: calc(100% - 20px); }
+    .modal h2 { font-size: 21px; padding: 0 26px; }
+    .cat-icon { font-size: 24px; }
+    .cat-name { font-size: 16px; }
+    .footer-note { display: none; }
+  }
+  /* iPhone SE / mini-class heights. */
+  @media (max-width: 620px) and (max-height: 780px) {
+    #board { --vb: 45; --cap: 54px; }
+    .key { height: 45px; }
+  }
+  @media (max-width: 620px) and (max-height: 680px) {
+    #board { --vb: 43; --cap: 48px; }
+    .key { height: 40px; font-size: 16px; }
+    .topbar h1 { font-size: clamp(19px, 6.6vw, 30px); }
+  }
+  /* Any short viewport — landscape phone, small desktop window. Keyed on
+     height alone, since a landscape iPhone is wider than the phone breakpoint. */
+  @media (max-height: 560px) {
+    body { align-items: flex-start; padding-top: calc(5px + env(safe-area-inset-top)); }
+    .game { padding: 9px 12px 10px; }
+    .topbar h1 {
+      font-size: clamp(19px, 3.4vw, 30px);
+      -webkit-text-stroke-width: 1.5px;
+      text-shadow: 2px 2px 0 var(--title-shadow), 3.5px 3.5px 0 var(--ink);
+    }
+    .subtitle { margin: 4px 0 4px; font-size: 11.5px; }
+    #message { min-height: 17px; font-size: 12.5px; margin-bottom: 3px; }
+    #board { --vb: 42; --cap: 40px; --floor: 26px; margin-bottom: 8px; }
+    #keyboard { gap: 5px; }
+    .key { height: 34px; font-size: 15px; }
+    .key.wide { font-size: 11px; }
+    .footer-note { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="prop-layer" id="prop-edge" aria-hidden="true"></div>
+
+  <main class="game">
+    <div class="topbar">
+      <button id="retry" type="button" class="pill-btn">
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M23 4v6h-6"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+        New Word
+      </button>
+      <h1>Left Turn at Albuquerque</h1>
+      <div class="action-bar">
+        <button id="topics-btn" type="button" class="pill-btn" aria-label="Categories">
+          <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          <span class="btn-label">Categories</span>
+        </button>
+        <button id="found-btn" type="button" class="pill-ghost" aria-label="Found words">
+          <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          <span class="btn-label">Found</span>
+        </button>
+        <button id="theme-toggle" type="button" class="icon-btn" aria-label="Toggle theme">
+          <svg class="icon-moon" viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="icon-sun"  viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+        </button>
+        <button id="stats-btn" type="button" class="icon-btn" aria-label="Statistics">
+          <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="12" width="4" height="8" rx="1"/><rect x="10" y="6" width="4" height="14" rx="1"/><rect x="16" y="9" width="4" height="11" rx="1"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <p class="subtitle" id="topic-label"></p>
+    <div id="message" aria-live="polite"></div>
+    <div id="board"></div>
+    <div id="keyboard"></div>
+    <p class="footer-note">Th-th-that&rsquo;s all, folks</p>
+  </main>
+
+  <div id="win-overlay" aria-hidden="true"></div>
+
+  <!-- Category picker -->
+  <div id="topics-modal" class="modal" aria-hidden="true">
+    <div class="modal-backdrop" data-close="topics-modal"></div>
+    <div class="modal-card" role="dialog" aria-modal="true" tabindex="-1" aria-labelledby="topics-title">
+      <button type="button" class="modal-close" data-close="topics-modal" aria-label="Close">
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+      <h2 id="topics-title">Pick Your Cartoon</h2>
+      <div id="topics-grid"></div>
+      <h3>Word Length</h3>
+      <div id="length-grid" class="pick-row"></div>
+      <p class="pick-note" id="length-note"></p>
+    </div>
+  </div>
+
+  <!-- Found words -->
+  <div id="found-modal" class="modal" aria-hidden="true">
+    <div class="modal-backdrop" data-close="found-modal"></div>
+    <div class="modal-card" role="dialog" aria-modal="true" tabindex="-1" aria-labelledby="found-title">
+      <button type="button" class="modal-close" data-close="found-modal" aria-label="Close">
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+      <h2 id="found-title">Words Bagged</h2>
+      <div id="found-grid"></div>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div id="stats-modal" class="modal" aria-hidden="true">
+    <div class="modal-backdrop" data-close="stats-modal"></div>
+    <div class="modal-card" role="dialog" aria-modal="true" tabindex="-1" aria-labelledby="stats-title">
+      <button type="button" class="modal-close" data-close="stats-modal" aria-label="Close statistics">
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+      <h2 id="stats-title">Score Card</h2>
+      <div id="stats-scope-grid" class="pick-row"></div>
+      <p class="stats-scope" id="stats-scope-label"></p>
+      <div class="stats-numbers">
+        <div class="stat"><div class="stat-num" id="stat-played">0</div><div class="stat-label">Played</div></div>
+        <div class="stat"><div class="stat-num" id="stat-winpct">0</div><div class="stat-label">Win&nbsp;%</div></div>
+        <div class="stat"><div class="stat-num" id="stat-cur">0</div><div class="stat-label">Current Streak</div></div>
+        <div class="stat"><div class="stat-num" id="stat-max">0</div><div class="stat-label">Max Streak</div></div>
+      </div>
+      <h3 id="dist-head">Guess Distribution</h3>
+      <div id="distribution"></div>
+      <p class="stats-empty" id="stats-empty" hidden>No games here yet.</p>
+      <button id="share-btn" type="button" class="share-btn" disabled>Share</button>
+    </div>
+  </div>
+
+  <script>
+  (function () {
+    'use strict';
+
+    // ---------- Categories ----------
+    // Six categories, 30 answers each: six words at every length from 4 to 8.
+    // Proper nouns very much welcome — they are the whole point.
+    // Hints follow one pattern: who or what it's about, in Title Case, with two
+    // subjects joined by "&" and a single subject left bare. No colons, no lists.
+    // "Rodgers and Hammerstein" keeps its own "and" because that's the duo's
+    // name; the "&" still separates the two subjects.
+    let CATEGORIES = [
+      { id: 'q36',     label: 'Q36',                  hint: 'Marvin',                            icon: '🛸' },
+      { id: 'pursuit', label: 'Happiness of Pursuit', hint: 'Road Runner & Wile E. Coyote',      icon: '💥' },
+      { id: 'pismo',   label: 'Pismo Beach',          hint: 'Bugs & Daffy',                      icon: '🥕' },
+      { id: 'boba',    label: 'Boba Fettucine',       hint: 'Star Wars & Spaghetti Westerns',    icon: '🤠' },
+      { id: 'slanky',  label: 'Slanky',               hint: 'Mike Doughty & Soul Coughing',      icon: '🎺' },
+      { id: 'taut',    label: 'Carefully Taut',       hint: 'Rodgers and Hammerstein & Hamilton', icon: '🎭' },
+      { id: 'pixar',   label: 'Infinity and Beyond',  hint: 'Pixar',                             icon: '🚀' }
+    ];
+
+    const WORDS = {
+      // Q36 — the Illudium Q-36 Explosive Space Modulator and its owner
+      q36: [
+        'MARS','MOON','ATOM','BOOM','FUSE','DOME',
+        'ANGRY','BROOM','ORBIT','SPACE','VENUS','EARTH',
+        'MARVIN','KABOOM','HELMET','ROCKET','PLANET','PISTOL',
+        'MARTIAN','DODGERS','CENTURY','BLASTER','ANTENNA','URANIUM',
+        'ILLUDIUM','SPACEMAN','ASTEROID','SNEAKERS','MODULATE','DOOMSDAY'
+      ],
+      // Happiness of Pursuit — Accelleratii Incredibus vs. Carnivorous Vulgaris
+      pursuit: [
+        'ACME','BEEP','MESA','ROAD','DUST','WILE',
+        'ANVIL','CLIFF','PAINT','SPEED','ROCKS','LEDGE',
+        'COYOTE','CANYON','DESERT','GENIUS','TUNNEL','DETOUR',
+        'BOULDER','GRAVITY','BEEPING','PLUMMET','FEATHER','HIGHWAY',
+        'DYNAMITE','CATAPULT','BIRDSEED','FREEFALL','UNICYCLE','DOWNHILL'
+      ],
+      // Pismo Beach — and all the clams we can eat
+      pismo: [
+        'HARE','DUCK','CLAM','FUDD','HOLE','STEW',
+        'DAFFY','PORKY','PISMO','OPERA','TUNES','BEACH',
+        'CARROT','RABBIT','WABBIT','SEASON','NIMROD','LOONEY',
+        'SEVILLE','STINKER','SHOTGUN','HUNTERS','BARBERS','BURROWS',
+        'YOSEMITE','BUCKSHOT','DISGUISE','CLAMBAKE','SABOTAGE','SEASHELL'
+      ],
+      // Boba Fettucine — bounty hunters, twin suns, and a man with no name
+      boba: [
+        'HOTH','JAWA','EWOK','SITH','TUCO','DUEL',
+        'JANGO','JABBA','VADER','LEONE','ENDOR','SPURS',
+        'BESPIN','GREEDO','DJANGO','PONCHO','BOUNTY','COFFIN',
+        'SARLACC','CANTINA','BLONDIE','JETPACK','CHEROOT','DOLLARS',
+        'TATOOINE','EASTWOOD','STANDOFF','CHEYENNE','GUNFIGHT','REVOLVER'
+      ],
+      // Slanky — Soul Coughing, solo Doughty, and the sampler in the corner
+      slanky: [
+        'RUBY','ZOOM','MARY','JAZZ','WELL','SIGN',
+        'VROOM','BELLS','WHITE','MOTEL','GHOST','SUGAR',
+        'JANINE','GOLDEN','SLANKY','BITTER','DEVILS','SAMPLE',
+        'CIRCLES','DOUGHTY','WICHITA','ROLLING','MELODIC','CHICAGO',
+        'SKITTISH','COLLAPSE','OSSINING','COUGHING','MADELINE','JENNIFER'
+      ],
+      // Carefully Taut — Rodgers & Hammerstein, plus the room where it happens
+      taut: [
+        'ANNA','BURR','LIAT','BURN','ROLF','DAME',
+        'ELIZA','MARIA','LIESL','CURLY','PEGGY','TRAPP',
+        'LAUREY','NELLIE','TUPTIM','SURREY','ABBESS','LOVERS',
+        'BIGELOW','LAURENS','MADISON','NONSTOP','SIXTEEN','RODGERS',
+        'HAMILTON','OKLAHOMA','SCHUYLER','CAROUSEL','YORKTOWN','ANGELICA'
+      ],
+      // Infinity and Beyond — Toy Story, Monsters Inc, A Bug's Life, Nemo
+      pixar: [
+        'BUZZ','ZURG','MIKE','FLIK','NEMO','DORY',
+        'WOODY','SULLY','CELIA','ROSIE','BRUCE','CRUSH',
+        'JESSIE','SLINKY','FUNGUS','HOPPER','SQUIRT','MARLIN',
+        'RANDALL','FRANCIS','ANTHILL','ANEMONE','DENTIST','SHERIFF',
+        'BULLSEYE','SOLDIERS','WAZOWSKI','CANISTER','HEIMLICH','SEAGULLS'
+      ]
+    };
+
+    // A category listed without a word list would break every screen that
+    // touches it, so drop it here instead. auditWords() below says why.
+    const DROPPED = CATEGORIES.filter(c => !Array.isArray(WORDS[c.id]) || !WORDS[c.id].length);
+    CATEGORIES = CATEGORIES.filter(c => Array.isArray(WORDS[c.id]) && WORDS[c.id].length > 0);
+
+    const TOPIC_IDS = CATEGORIES.map(c => c.id);
+    const DEFAULT_TOPIC = TOPIC_IDS.indexOf('pismo') !== -1 ? 'pismo' : TOPIC_IDS[0];
+
+    // Longer words earn more guesses.
+    function guessesFor(len) {
+      if (len <= 5) return 6;
+      if (len <= 7) return 7;
+      return 8;
+    }
+
+    // ---------- Derived from the word lists, never hardcoded ----------
+    // ADDING A CATEGORY: append an entry to CATEGORIES and a matching array to
+    // WORDS under the same id. Everything below adapts — the length picker, the
+    // guess-distribution height, the stats card and the found list. Saved
+    // progress is keyed by category id, so existing data is untouched; the new
+    // category simply starts empty. Don't reuse an id, and don't rename one (a
+    // rename orphans that category's saved stats, though they are preserved in
+    // storage rather than deleted, so restoring the old id brings them back).
+    const LENGTHS = (function () {
+      const seen = {};
+      TOPIC_IDS.forEach(id => (WORDS[id] || []).forEach(w => { seen[w.length] = true; }));
+      return Object.keys(seen).map(Number).sort((a, b) => a - b);
+    })();
+
+    // Tall enough for the most generous word length in the data.
+    const DIST_BUCKETS = LENGTHS.length
+      ? LENGTHS.reduce((m, n) => Math.max(m, guessesFor(n)), 0)
+      : 8;
+
+    // Sanity check for whoever edits the lists next. Console-only: never blocks
+    // play, since a wonky list is still perfectly playable.
+    (function auditWords() {
+      if (typeof console === 'undefined' || !console.warn) return;
+      const warn = m => console.warn('[word list] ' + m);
+      // The likeliest slip when adding a category: forgetting the word list.
+      DROPPED.forEach(c => warn('category "' + c.id + '" has no WORDS entry — it was skipped. ' +
+                                'Add WORDS.' + c.id + ' = [...] to enable it.'));
+
+      const counts = {}, seen = {};
+      TOPIC_IDS.forEach(id => {
+        const list = WORDS[id];
+        counts[id] = list.length;
+        const within = {};
+        list.forEach(w => {
+          if (!/^[A-Z]+$/.test(w)) warn('"' + w + '" in ' + id + ' is not plain A-Z');
+          if (within[w]) { warn('"' + w + '" is repeated inside ' + id); return; }
+          within[w] = true;
+          if (seen[w]) warn('"' + w + '" appears in both ' + seen[w] + ' and ' + id);
+          else seen[w] = id;
+        });
+      });
+      const totals = Object.keys(counts).map(k => counts[k]);
+      if (totals.length && Math.min.apply(null, totals) !== Math.max.apply(null, totals)) {
+        warn('categories have different totals: ' +
+             Object.keys(counts).map(k => k + '=' + counts[k]).join(', '));
+      }
+      Object.keys(WORDS).forEach(id => {
+        if (TOPIC_IDS.indexOf(id) === -1) warn('WORDS has "' + id + '" but no CATEGORIES entry — it is unreachable');
+      });
+    })();
+
+    function topicMeta(id) {
+      const cat = CATEGORIES.find(c => c.id === id) || CATEGORIES[0];
+      return cat;
+    }
+
+    // Column count for a pill row: as many per row as will stay comfortably
+    // tappable, then evened out so the last row is never nearly empty
+    // (7 items in a 4-wide space becomes 4+3, not 4+3 stranded as 6+1).
+    const PILL_MIN = 38, PILL_GAP = 6;
+    function balancedCols(count, el) {
+      if (count <= 1) return 1;
+      const avail = (el && el.clientWidth) || 320;
+      const perRow = Math.max(1, Math.floor((avail + PILL_GAP) / (PILL_MIN + PILL_GAP)));
+      const rows = Math.ceil(count / Math.min(count, perRow));
+      return Math.ceil(count / rows);
+    }
+    function applyCols(el, count) {
+      el.style.gridTemplateColumns = 'repeat(' + balancedCols(count, el) + ', 1fr)';
+    }
+
+    // Any correctly-sized string of letters is a legal guess: the answers are
+    // largely proper nouns, so a dictionary would reject more than it caught.
+
+    // ---------- Storage (degrades to in-memory if localStorage throws) ----------
+    // Keys are unchanged from the previous edition so streaks carry over.
+    const KEY = {
+      topic:   'catsWordle:topic',
+      current: 'catsWordle:current',
+      found:   'catsWordle:found',
+      stats:   'catsWordle:stats',
+      theme:   'catsWordle:theme',
+      length:  'catsWordle:length'
+    };
+    // Some contexts (a file:// page, private browsing with storage disabled)
+    // refuse localStorage outright. The game still plays; the scoreboard just
+    // won't survive a reload, and the player deserves to be told once.
+    const STORAGE_OK = (function () {
+      try {
+        const probe = 'catsWordle:probe';
+        localStorage.setItem(probe, '1');
+        localStorage.removeItem(probe);
+        return true;
+      } catch (_) { return false; }
+    })();
+
+    function readStorage(k)  { try { return localStorage.getItem(k); } catch (_) { return null; } }
+    function writeStorage(k, v) { try { localStorage.setItem(k, v); } catch (_) {} }
+    function removeStorage(k) { try { localStorage.removeItem(k); } catch (_) {} }
+    function readJSON(k, fallback) {
+      const raw = readStorage(k);
+      if (raw == null) return fallback;
+      try { return JSON.parse(raw); } catch (_) { return fallback; }
+    }
+
+    // ---------- Topic + answer selection ----------
+    function loadTopic() {
+      const t = readStorage(KEY.topic);
+      return (t && TOPIC_IDS.indexOf(t) !== -1) ? t : DEFAULT_TOPIC;
+    }
+    function saveTopic(t) { writeStorage(KEY.topic, t); }
+
+    function loadFound() {
+      const f = readJSON(KEY.found, {});
+      return (f && typeof f === 'object') ? f : {};
+    }
+    function saveFound(f) { writeStorage(KEY.found, JSON.stringify(f)); }
+    function foundFor(topic) {
+      const all = WORDS[topic];
+      const arr = loadFound()[topic];
+      if (!Array.isArray(arr) || !Array.isArray(all)) return [];
+      // Words dropped from a list stop counting here but stay in storage, so
+      // putting one back restores it as already found.
+      return arr.filter(w => all.indexOf(w) !== -1);
+    }
+    function markFound(topic, word) {
+      const f = loadFound();
+      if (!Array.isArray(f[topic])) f[topic] = [];
+      if (f[topic].indexOf(word) === -1) f[topic].push(word);
+      saveFound(f);
+    }
+
+    // ---------- Length filter: a specific length, or 'any' for the lot ----------
+    function loadLength() {
+      const n = parseInt(readStorage(KEY.length), 10);
+      return LENGTHS.indexOf(n) !== -1 ? n : 'any';
+    }
+    function saveLength(n) {
+      if (n === 'any') removeStorage(KEY.length);
+      else writeStorage(KEY.length, String(n));
+    }
+    function inFilter(w) { return lengthFilter === 'any' || w.length === lengthFilter; }
+
+    function loadCurrentAnswer() {
+      const c = readJSON(KEY.current, null);
+      if (c && c.topic === currentTopic &&
+          WORDS[currentTopic].indexOf(c.answer) !== -1 &&
+          inFilter(c.answer)) return c.answer;
+      return null;
+    }
+    function saveCurrentAnswer(w) { writeStorage(KEY.current, JSON.stringify({ topic: currentTopic, answer: w })); }
+    function clearCurrentAnswer() { removeStorage(KEY.current); }
+
+    function pickAnswer() {
+      const saved = loadCurrentAnswer();
+      if (saved) return saved;
+      const found = foundFor(currentTopic);
+      const eligible = WORDS[currentTopic].filter(inFilter);
+      // Prefer words not yet found; once a length (or a whole category) is
+      // cleared, replay that same set rather than widening the filter.
+      let pool = eligible.filter(w => found.indexOf(w) === -1);
+      if (pool.length === 0) pool = eligible.slice();
+      if (pool.length === 0) pool = WORDS[currentTopic].slice(); // filter matched nothing
+      const w = pool[Math.floor(Math.random() * pool.length)];
+      saveCurrentAnswer(w);
+      return w;
+    }
+
+    // ---------- Stats ----------
+    // One block of counters for the whole game, plus an identical block per
+    // category, so a category streak survives switching away and back.
+    function blankBlock() {
+      return {
+        played: 0, won: 0, currentStreak: 0, maxStreak: 0,
+        distribution: new Array(DIST_BUCKETS).fill(0),
+        lastWinRow: -1
+      };
+    }
+    function readBlock(raw) {
+      const out = blankBlock();
+      if (!raw || typeof raw !== 'object') return out;
+      // Clamp: a hand-edited or corrupted save shouldn't render as "-1999%".
+      ['played','won','currentStreak','maxStreak','lastWinRow'].forEach(k => {
+        const v = raw[k];
+        if (typeof v !== 'number' || !isFinite(v)) return;
+        out[k] = k === 'lastWinRow' ? Math.max(-1, Math.floor(v)) : Math.max(0, Math.floor(v));
+      });
+      // Older saves stored six buckets; pad rather than discard the history.
+      // A save with MORE buckets than we currently need keeps them all, so
+      // shortening the word lists can never silently delete past results.
+      if (Array.isArray(raw.distribution)) {
+        const n = Math.max(DIST_BUCKETS, raw.distribution.length);
+        out.distribution = new Array(n).fill(0);
+        for (let i = 0; i < n; i++) {
+          const v = raw.distribution[i];
+          out.distribution[i] = typeof v === 'number' ? v : 0;
+        }
+      }
+      return out;
+    }
+    function defaultStats() {
+      const s = blankBlock();
+      s.topics = {};
+      return s;
+    }
+    function loadStats() {
+      const raw = readJSON(KEY.stats, null);
+      const out = readBlock(raw);
+      out.topics = {};
+      const t = raw && raw.topics;
+      if (t && typeof t === 'object') {
+        // Read EVERY stored id, not just the ones currently in CATEGORIES.
+        // saveStats writes back whatever this returns, so filtering here would
+        // permanently delete the stats of any category that was renamed or
+        // temporarily removed. Unknown ids stay parked and invisible.
+        Object.keys(t).forEach(id => { out.topics[id] = readBlock(t[id]); });
+      }
+      return out;
+    }
+    function saveStats(s) { writeStorage(KEY.stats, JSON.stringify(s)); }
+    function statsFor(s, id) { return s.topics[id] || blankBlock(); }
+
+    // Applies the same mutation to the global block and the category block.
+    function record(topic, mutate) {
+      const s = loadStats();
+      const block = statsFor(s, topic);
+      mutate(s);
+      mutate(block);
+      s.topics[topic] = block;
+      saveStats(s);
+      return s;
+    }
+    function recordWin(rowIndex) {
+      return record(currentTopic, b => {
+        b.played++; b.won++; b.currentStreak++;
+        if (b.currentStreak > b.maxStreak) b.maxStreak = b.currentStreak;
+        if (rowIndex >= 0 && rowIndex < DIST_BUCKETS) b.distribution[rowIndex]++;
+        b.lastWinRow = rowIndex;
+      });
+    }
+    function recordLoss() {
+      return record(currentTopic, b => {
+        b.played++; b.currentStreak = 0; b.lastWinRow = -1;
+      });
+    }
+
+    // ---------- Theme ----------
+    function loadTheme() {
+      const t = readStorage(KEY.theme);
+      if (t === 'light' || t === 'dark') return t;
+      return matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    function applyTheme(t) {
+      document.documentElement.dataset.theme = t;
+      const btn = document.getElementById('theme-toggle');
+      if (btn) btn.setAttribute('aria-label', t === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+    }
+    function setTheme(t) { writeStorage(KEY.theme, t); applyTheme(t); }
+    applyTheme(loadTheme());
+
+    // ---------- Share ----------
+    let lastShareText = null;
+    function buildShareText(rows, won) {
+      const map = { correct: '🟩', present: '🟨', absent: '⬛' };
+      const grid = rows.map(r => r.map(s => map[s] || '⬛').join('')).join('\n');
+      const score = won ? rows.length : 'X';
+      const t = topicMeta(currentTopic);
+      return 'Left Turn at Albuquerque\n' +
+             t.label + ' · ' + ANSWER.length + ' letters\n' +
+             score + '/' + maxGuesses + '\n\n' + grid;
+    }
+    async function share() {
+      if (!lastShareText) return;
+      try {
+        if (navigator.share) { await navigator.share({ text: lastShareText }); return; }
+      } catch (_) { /* cancelled — fall through to clipboard */ }
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          await navigator.clipboard.writeText(lastShareText);
+          showMessage('Copied!');
+          return;
+        }
+      } catch (_) { /* fall through */ }
+      const ta = document.createElement('textarea');
+      ta.value = lastShareText;
+      ta.style.position = 'fixed';
+      ta.style.left = '-9999px';
+      ta.setAttribute('readonly', '');
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); showMessage('Copied!'); } catch (_) {}
+      document.body.removeChild(ta);
+    }
+
+    // ---------- Cartoon prop SVGs ----------
+    const INK = '#17110e';
+
+    const anvilSVG = () => `
+      <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+        <g stroke="${INK}" stroke-width="2.6" stroke-linejoin="round">
+          <path d="M5 16h40l10 6-10 6H5z" fill="#7d838c"/>
+          <path d="M20 28h15l2 12H18z" fill="#666c75"/>
+          <path d="M12 40h30l5 9H7z" fill="#7d838c"/>
+        </g>
+        <path d="M9 19h30" stroke="#a9aeb6" stroke-width="2.4" stroke-linecap="round"/>
+      </svg>`;
+
+    const carrotSVG = () => `
+      <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+        <path d="M21 21h18l-8 33a1 1 0 0 1-2 0z" fill="#f0812a" stroke="${INK}" stroke-width="2.6" stroke-linejoin="round"/>
+        <g stroke="#c0620f" stroke-width="2.2" stroke-linecap="round">
+          <path d="M25 29h9"/><path d="M26 37h7"/><path d="M28 44h4"/>
+        </g>
+        <path d="M30 22C25 10 17 8 15 12c6 0 9 4 11 10z" fill="#4aa855" stroke="${INK}" stroke-width="2.4" stroke-linejoin="round"/>
+        <path d="M30 22c5-12 13-14 15-10-6 0-9 4-11 10z" fill="#35943f" stroke="${INK}" stroke-width="2.4" stroke-linejoin="round"/>
+      </svg>`;
+
+    const tntSVG = () => `
+      <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+        <g stroke="${INK}" stroke-width="2.4" stroke-linejoin="round">
+          <rect x="14" y="26" width="11" height="26" rx="2.5" fill="#e23a2e"/>
+          <rect x="24" y="26" width="11" height="26" rx="2.5" fill="#c22f26"/>
+          <rect x="34" y="26" width="11" height="26" rx="2.5" fill="#e23a2e"/>
+        </g>
+        <path d="M18 34h27" stroke="#fff6e0" stroke-width="3.2"/>
+        <path d="M30 26c0-9 8-9 11-16" fill="none" stroke="${INK}" stroke-width="2.6" stroke-linecap="round"/>
+        <circle cx="42" cy="8" r="4.5" fill="#f7c51e" stroke="${INK}" stroke-width="2.2"/>
+      </svg>`;
+
+    const starSVG = () => `
+      <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+        <path d="M30 3l6 18 18-6-12 15 14 10H37l3 17-10-12-11 12 3-17H4l14-10L6 15l18 6z"
+              fill="#f7c51e" stroke="${INK}" stroke-width="2.6" stroke-linejoin="round"/>
+        <circle cx="30" cy="30" r="5" fill="#e23a2e" stroke="${INK}" stroke-width="2"/>
+      </svg>`;
+
+    const bullseyeSVG = () => `
+      <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+        <g stroke="${INK}" stroke-width="2.2">
+          <circle cx="30" cy="30" r="27" fill="#2e86c8"/>
+          <circle cx="30" cy="30" r="20" fill="#e23a2e"/>
+          <circle cx="30" cy="30" r="13" fill="#f0812a"/>
+          <circle cx="30" cy="30" r="6" fill="#f7c51e"/>
+        </g>
+      </svg>`;
+
+    const saucerSVG = () => `
+      <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+        <path d="M15 32a15 12 0 0 1 30 0z" fill="#7bc97f" stroke="${INK}" stroke-width="2.4" stroke-linejoin="round"/>
+        <ellipse cx="30" cy="36" rx="27" ry="8" fill="#35943f" stroke="${INK}" stroke-width="2.4"/>
+        <circle cx="30" cy="24" r="4.5" fill="#f7c51e" stroke="${INK}" stroke-width="2"/>
+        <circle cx="14" cy="38" r="2.6" fill="#f7c51e" stroke="${INK}" stroke-width="1.6"/>
+        <circle cx="46" cy="38" r="2.6" fill="#f7c51e" stroke="${INK}" stroke-width="1.6"/>
+      </svg>`;
+
+    const crateSVG = () => `
+      <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+        <rect x="6" y="18" width="48" height="34" rx="3" fill="#cf9550" stroke="${INK}" stroke-width="2.6"/>
+        <path d="M6 27h48M6 45h48" stroke="${INK}" stroke-width="1.8"/>
+        <rect x="10" y="29" width="40" height="14" rx="2" fill="#f0dcbb" stroke="${INK}" stroke-width="1.8"/>
+        <text x="30" y="40.5" text-anchor="middle" font-family="'Luckiest Guy',Impact,'Arial Black',sans-serif"
+              font-size="12" fill="${INK}" letter-spacing="1">ACME</text>
+      </svg>`;
+
+    const EDGE_PROPS = [anvilSVG, carrotSVG, tntSVG, starSVG];
+    const WIN_PROPS  = [anvilSVG, carrotSVG, tntSVG, starSVG, bullseyeSVG, saucerSVG, crateSVG];
+
+    // ---------- DOM refs ----------
+    const board       = document.getElementById('board');
+    const keyboard    = document.getElementById('keyboard');
+    const messageEl   = document.getElementById('message');
+    const propLayer   = document.getElementById('prop-edge');
+    const winOverlay  = document.getElementById('win-overlay');
+    const topicLabel  = document.getElementById('topic-label');
+    const retryBtn    = document.getElementById('retry');
+    const themeBtn    = document.getElementById('theme-toggle');
+    const statsBtn    = document.getElementById('stats-btn');
+    const topicsBtn   = document.getElementById('topics-btn');
+    const foundBtn    = document.getElementById('found-btn');
+    const shareBtn    = document.getElementById('share-btn');
+    const topicsModal = document.getElementById('topics-modal');
+    const foundModal  = document.getElementById('found-modal');
+    const statsModal  = document.getElementById('stats-modal');
+
+    // ---------- Game state ----------
+    let currentTopic = loadTopic();
+    let lengthFilter = loadLength();   // 4..8, or 'any'
+    let statsView = 'all';             // 'all', or a category id
+    let currentRow = 0;
+    let currentGuess = '';
+    let gameOver = false;
+    let isSubmitting = false;
+    let ANSWER = '';
+    let maxGuesses = 6;
+    let epoch = 0;              // bumped by reset(); invalidates in-flight timers
+    let warnedStorage = false;
+    const submittedRows = [];
+
+    // ---------- Build UI ----------
+    function buildBoard() {
+      board.innerHTML = '';
+      // The CSS sizes every tile from these two numbers, so an 8-letter word
+      // with 8 rows still fits above the keyboard on a phone.
+      board.style.setProperty('--cols', ANSWER.length);
+      board.style.setProperty('--rows', maxGuesses);
+      for (let r = 0; r < maxGuesses; r++) {
+        const row = document.createElement('div');
+        row.className = 'row';
+        row.id = 'row-' + r;
+        for (let c = 0; c < ANSWER.length; c++) {
+          const cell = document.createElement('div');
+          cell.className = 'cell';
+          cell.id = 'cell-' + r + '-' + c;
+          cell.style.setProperty('--d', (c * 0.09) + 's');
+          row.appendChild(cell);
+        }
+        board.appendChild(row);
+      }
+    }
+
+    function buildKeyboard() {
+      keyboard.innerHTML = '';
+      const rows = ['QWERTYUIOP', 'ASDFGHJKL', 'ZXCVBNM'];
+      rows.forEach((rowStr, i) => {
+        const rowEl = document.createElement('div');
+        rowEl.className = 'kb-row';
+        if (i === 2) rowEl.appendChild(makeKey('ENTER', 'wide'));
+        for (const ch of rowStr) rowEl.appendChild(makeKey(ch));
+        if (i === 2) rowEl.appendChild(makeKey('BACK', 'wide'));
+        keyboard.appendChild(rowEl);
+      });
+    }
+
+    function makeKey(label, extra) {
+      const k = document.createElement('button');
+      k.type = 'button';
+      k.className = ('key ' + (extra || '')).trim();
+      k.dataset.key = label;
+      k.textContent = label === 'BACK' ? '⌫' : label;
+      // The glyph alone gives a screen reader nothing useful to say.
+      if (label === 'BACK') k.setAttribute('aria-label', 'Backspace');
+      k.addEventListener('click', (e) => { e.preventDefault(); k.blur(); handleKey(label); });
+      return k;
+    }
+
+    function updateTopicLabel() {
+      const t = topicMeta(currentTopic);
+      topicLabel.innerHTML = '';
+      const name = document.createElement('span');
+      name.textContent = t.icon + ' ' + t.label;
+
+      // Doubles as the way in to the length picker.
+      const chip = document.createElement('button');
+      chip.type = 'button';
+      chip.className = 'len-chip';
+      chip.title = 'Choose word length';
+      chip.setAttribute('aria-label',
+        'Word length: ' + (lengthFilter === 'any' ? 'any' : lengthFilter) + '. Change it.');
+      chip.textContent = ANSWER.length + ' letters · ' + maxGuesses + ' tries';
+      // A dot marks the length as pinned rather than drawn at random.
+      if (lengthFilter !== 'any') {
+        const pin = document.createElement('span');
+        pin.className = 'pin';
+        pin.textContent = ' ●';
+        chip.appendChild(pin);
+      }
+      chip.addEventListener('click', () => { chip.blur(); openTopics(topicsBtn); });
+
+      topicLabel.appendChild(name);
+      topicLabel.appendChild(chip);
+    }
+
+    // ---------- Input ----------
+    function handleKey(key) {
+      if (gameOver || isSubmitting) return;
+      if (key === 'ENTER') return submitGuess();
+      if (key === 'BACK') {
+        if (currentGuess.length > 0) {
+          currentGuess = currentGuess.slice(0, -1);
+          updateRow();
+        }
+        return;
+      }
+      if (/^[A-Z]$/.test(key) && currentGuess.length < ANSWER.length) {
+        currentGuess += key;
+        updateRow();
+      }
+    }
+
+    function updateRow() {
+      for (let c = 0; c < ANSWER.length; c++) {
+        const cell = document.getElementById('cell-' + currentRow + '-' + c);
+        const ch = currentGuess[c] || '';
+        const had = cell.textContent;
+        cell.textContent = ch;
+        if (ch && !had) cell.classList.add('filled');
+        if (!ch) cell.classList.remove('filled');
+      }
+    }
+
+    function showMessage(msg, ms) {
+      ms = ms || 1500;
+      messageEl.textContent = msg;
+      clearTimeout(messageEl._t);
+      messageEl._t = setTimeout(() => { messageEl.textContent = ''; }, ms);
+    }
+
+    function shakeRow(r) {
+      const row = document.getElementById('row-' + r);
+      row.classList.remove('shake');
+      void row.offsetWidth;
+      row.classList.add('shake');
+      setTimeout(() => row.classList.remove('shake'), 500);
+    }
+
+    // ---------- Scoring (with proper duplicate-letter handling) ----------
+    function scoreGuess(guess, answer) {
+      const result = new Array(answer.length).fill('absent');
+      const rem = answer.split('');
+      for (let i = 0; i < guess.length; i++) {
+        if (guess[i] === rem[i]) { result[i] = 'correct'; rem[i] = null; }
+      }
+      for (let i = 0; i < guess.length; i++) {
+        if (result[i] === 'correct') continue;
+        const idx = rem.indexOf(guess[i]);
+        if (idx >= 0) { result[i] = 'present'; rem[idx] = null; }
+      }
+      return result;
+    }
+
+    // ---------- Submit ----------
+    function submitGuess() {
+      if (currentGuess.length !== ANSWER.length) {
+        shakeRow(currentRow);
+        showMessage('Need ' + ANSWER.length + ' letters');
+        return;
+      }
+      isSubmitting = true;
+      // The reveal runs on timers for up to ~1.9s. If a new word starts in that
+      // window (New Word, or a category/length change), those timers must not
+      // fire against the fresh game: they used to read the live ANSWER and
+      // currentTopic, so an interrupted win credited a random word in the wrong
+      // category as found and logged a bogus result.
+      const myEpoch = epoch;
+      const result = scoreGuess(currentGuess, ANSWER);
+      submittedRows.push(result.slice());
+      const flipDur = 500;
+      // Long words get a snappier stagger so an 8-letter reveal stays brisk.
+      const flipStagger = ANSWER.length > 6 ? 170 : 220;
+
+      for (let c = 0; c < ANSWER.length; c++) {
+        const cell = document.getElementById('cell-' + currentRow + '-' + c);
+        const status = result[c];
+        ((cell, status, c) => {
+          setTimeout(() => {
+            if (myEpoch !== epoch) return;
+            cell.classList.add('flip');
+            setTimeout(() => {
+              if (myEpoch !== epoch) return;
+              cell.classList.add(status);
+            }, flipDur / 2);
+          }, c * flipStagger);
+        })(cell, status, c);
+      }
+
+      // Resolve the best status this guess gives each letter BEFORE scheduling.
+      // Reading k.dataset.status inside the loop while writing it inside the
+      // timeouts meant a repeated letter could be scheduled twice, and the
+      // later position won — so guessing SEASONAL against SEASHELL turned the
+      // A key grey even though A was correct at index 2.
+      const order = { absent: 0, present: 1, correct: 2 };
+      const best = {};
+      for (let c = 0; c < ANSWER.length; c++) {
+        const ch = currentGuess[c];
+        if (!best[ch] || order[result[c]] > order[best[ch].status]) {
+          best[ch] = { status: result[c], at: c };
+        }
+      }
+      Object.keys(best).forEach(ch => {
+        const k = document.querySelector('.key[data-key="' + ch + '"]');
+        if (!k) return;
+        const cur = k.dataset.status;
+        if (cur && order[best[ch].status] <= order[cur]) return;  // never downgrade
+        const status = best[ch].status;
+        setTimeout(() => {
+          if (myEpoch !== epoch) return;
+          k.classList.remove('absent', 'present', 'correct');
+          k.classList.add(status);
+          k.dataset.status = status;
+        }, best[ch].at * flipStagger + flipDur / 2);
+      });
+
+      growEdgeProps();
+
+      const totalDur = (ANSWER.length - 1) * flipStagger + flipDur + 200;
+      const won = currentGuess === ANSWER;
+      const submittedRow = currentRow;
+
+      setTimeout(() => {
+        if (myEpoch !== epoch) return;   // a new word started mid-reveal
+        isSubmitting = false;
+        if (won) {
+          gameOver = true;
+          const first = foundFor(currentTopic).indexOf(ANSWER) === -1;
+          markFound(currentTopic, ANSWER);
+          clearCurrentAnswer();
+          recordWin(submittedRow);
+          lastShareText = buildShareText(submittedRows, true);
+          shareBtn.disabled = false;
+          const row = document.getElementById('row-' + submittedRow);
+          row.classList.add('win-bounce');
+          const done = first && foundFor(currentTopic).length === WORDS[currentTopic].length;
+          setTimeout(() => triggerWin(done), 700);
+        } else {
+          currentRow++;
+          currentGuess = '';
+          if (currentRow >= maxGuesses) {
+            gameOver = true;
+            clearCurrentAnswer();
+            recordLoss();
+            lastShareText = buildShareText(submittedRows, false);
+            shareBtn.disabled = false;
+            setTimeout(triggerLoss, 400);
+          }
+        }
+      }, totalDur);
+    }
+
+    // ---------- Edge props (one burst per guess) ----------
+    function growEdgeProps() {
+      if (reducedMotion()) return;
+      const w = window.innerWidth, h = window.innerHeight;
+      const count = 9;
+      // Props are only cleared on reset, so an eight-guess game would otherwise
+      // leave ~72 finished SVGs stacked up. Retire the oldest as we go.
+      while (propLayer.childNodes.length > count * 3) {
+        propLayer.removeChild(propLayer.firstChild);
+      }
+      for (let i = 0; i < count; i++) {
+        const el = document.createElement('div');
+        el.className = 'edge-prop';
+        el.innerHTML = EDGE_PROPS[Math.floor(Math.random() * EDGE_PROPS.length)]();
+
+        const side = Math.floor(Math.random() * 4);
+        const along = Math.random();
+        const depth = Math.random() * 0.13;
+        let x, y;
+        if (side === 0)      { x = along * w; y = depth * h; }
+        else if (side === 1) { x = (1 - depth) * w; y = along * h; }
+        else if (side === 2) { x = along * w; y = (1 - depth) * h; }
+        else                 { x = depth * w; y = along * h; }
+
+        const size = 54 + Math.random() * 40;
+        el.style.left = (x - size / 2) + 'px';
+        el.style.top  = (y - size / 2) + 'px';
+        el.style.width  = size + 'px';
+        el.style.height = size + 'px';
+        el.style.setProperty('--rot', (Math.random() * 50 - 25) + 'deg');
+        el.style.animationDelay = (Math.random() * 0.5) + 's';
+        propLayer.appendChild(el);
+      }
+    }
+
+    // ---------- Win takeover ----------
+    function triggerWin(categoryComplete) {
+      winOverlay.innerHTML = '';
+      winOverlay.classList.add('active');
+
+      const title = categoryComplete ? "That's all, folks!" : pickCheer();
+      const note = categoryComplete ? topicMeta(currentTopic).label + ' — every word found' : '';
+
+      // With reduced motion the flood is animated away instantly, so skip it
+      // rather than leaving two seconds of blank screen before the panel.
+      if (reducedMotion()) {
+        showEndPanel({ title: title, note: note, delay: 60 });
+        return;
+      }
+
+      const w = window.innerWidth, h = window.innerHeight;
+      const cellSize = Math.max(78, Math.min(112, w / 5));
+      const cols = Math.ceil(w / cellSize) + 1;
+      const rows = Math.ceil(h / cellSize) + 1;
+      const cx = w / 2, cy = h / 2;
+      const maxDist = Math.hypot(w / 2, h / 2);
+
+      const GROW_MAX = 700;
+      const HOLD = 700;
+      const GROW_ANIM = 700;
+      const RETRACT_SPREAD = 700;
+
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          const el = document.createElement('div');
+          el.className = 'win-prop';
+          el.innerHTML = WIN_PROPS[Math.floor(Math.random() * WIN_PROPS.length)]();
+
+          const jitter = cellSize * 0.55;
+          const x = c * cellSize + (Math.random() - 0.5) * jitter;
+          const y = r * cellSize + (Math.random() - 0.5) * jitter;
+          const size = cellSize * (0.9 + Math.random() * 0.5);
+          el.style.left = (x - size / 2) + 'px';
+          el.style.top  = (y - size / 2) + 'px';
+          el.style.width  = size + 'px';
+          el.style.height = size + 'px';
+
+          const dist = Math.hypot(x - cx, y - cy);
+          const tn = Math.min(1, dist / maxDist);
+          const growDelay = (1 - tn) * GROW_MAX + Math.random() * 150;
+          const retractStart = GROW_MAX + GROW_ANIM + HOLD;
+          const retractDelay = retractStart + tn * RETRACT_SPREAD + Math.random() * 150;
+
+          el.style.setProperty('--rot', (Math.random() * 70 - 35) + 'deg');
+          el.style.setProperty('--grow-delay', growDelay + 'ms');
+          el.style.setProperty('--retract-delay', retractDelay + 'ms');
+          winOverlay.appendChild(el);
+        }
+      }
+
+      showEndPanel({ title: title, note: note, delay: GROW_MAX + GROW_ANIM + HOLD + 100 });
+    }
+
+    function reducedMotion() {
+      try { return matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (_) { return false; }
+    }
+
+    // Shared end-of-game panel. A loss used to leave the board dead with only a
+    // message that timed out, and no way forward on screen.
+    function showEndPanel(opts) {
+      const delay = opts.delay || 0;
+      winOverlay.classList.add('active');
+
+      const msg = document.createElement('div');
+      msg.className = 'win-message';
+      const panel = document.createElement('div');
+      panel.className = 'win-panel';
+
+      const l1 = document.createElement('div');
+      l1.className = 'line1';
+      l1.textContent = opts.title;
+      const l2 = document.createElement('div');
+      l2.className = 'line2';
+      l2.textContent = ANSWER;
+      panel.appendChild(l1);
+      panel.appendChild(l2);
+      if (opts.note) {
+        const l3 = document.createElement('div');
+        l3.className = 'line3';
+        l3.textContent = opts.note;
+        panel.appendChild(l3);
+      }
+      msg.appendChild(panel);
+      winOverlay.appendChild(msg);
+
+      const actions = document.createElement('div');
+      actions.className = 'win-actions';
+
+      const next = document.createElement('button');
+      next.type = 'button';
+      next.className = 'win-btn';
+      next.textContent = 'Next Word';
+      next.addEventListener('click', () => reset());
+
+      const shareBtn2 = document.createElement('button');
+      shareBtn2.type = 'button';
+      shareBtn2.className = 'win-btn alt';
+      shareBtn2.textContent = 'Share';
+      shareBtn2.addEventListener('click', share);
+
+      actions.appendChild(next);
+      actions.appendChild(shareBtn2);
+      winOverlay.appendChild(actions);
+
+      setTimeout(() => msg.classList.add('show'), delay);
+      setTimeout(() => actions.classList.add('show'), delay + 700);
+    }
+
+    // Kept short so they don't wrap in the display face.
+    const CURSES = ['Curses!', 'Nice try, doc!', 'Foiled again!', 'Ah, nuts!'];
+    function triggerLoss() {
+      // No prop flood for a loss — just the answer and a way onward.
+      winOverlay.innerHTML = '';
+      showEndPanel({
+        title: CURSES[Math.floor(Math.random() * CURSES.length)],
+        note: 'The answer',
+        delay: 60
+      });
+    }
+
+    const CHEERS = [
+      'Ain’t I a stinker?',
+      'What’s up, doc?',
+      'Beep beep!',
+      'Nice work, doc!',
+      'Super genius!',
+      'Isn’t that lovely?',
+      'You’re despicable!',
+      'Of course you realize…'
+    ];
+    function pickCheer() { return CHEERS[Math.floor(Math.random() * CHEERS.length)]; }
+
+    // ---------- Reset / new word ----------
+    function reset() {
+      epoch++;                  // any reveal still in flight now belongs to a dead game
+      submittedRows.length = 0;
+      ANSWER = pickAnswer();
+      maxGuesses = guessesFor(ANSWER.length);
+      currentRow = 0;
+      currentGuess = '';
+      gameOver = false;
+      isSubmitting = false;
+      propLayer.innerHTML = '';
+      winOverlay.classList.remove('active');
+      winOverlay.innerHTML = '';
+      messageEl.textContent = '';
+      // Don't leave the last game's grid on the Share button: once a new word
+      // is up, sharing an old result is just wrong.
+      lastShareText = null;
+      shareBtn.disabled = true;
+      buildBoard();
+      buildKeyboard();
+      updateTopicLabel();
+      if (!STORAGE_OK && !warnedStorage) {
+        warnedStorage = true;
+        showMessage('Heads up — this page can’t save progress', 6000);
+      }
+    }
+
+    // A reveal in flight owns the current answer and category until it settles.
+    // The epoch guard keeps an interrupted reveal from corrupting the next game,
+    // but letting it be interrupted would still throw away a win the player
+    // earned — so hold these off for the ~1.4-1.9s a reveal lasts, exactly as
+    // keyboard input is already held off. isSubmitting is always cleared by the
+    // finalizer or by reset(), so this cannot wedge.
+    function busy() { return isSubmitting; }
+
+    function setTopic(topic) {
+      if (busy() || TOPIC_IDS.indexOf(topic) === -1) return;
+      currentTopic = topic;
+      saveTopic(topic);
+      clearCurrentAnswer();
+      reset();
+    }
+
+    function setLength(n) {
+      if (busy()) return;
+      if (n !== 'any' && LENGTHS.indexOf(n) === -1) return;
+      lengthFilter = n;
+      saveLength(n);
+      clearCurrentAnswer();   // the in-progress word may no longer qualify
+      reset();
+      renderLengths();
+      renderTopics();
+    }
+
+    // ---------- Length picker ----------
+    function renderLengths() {
+      const wrap = document.getElementById('length-grid');
+      const note = document.getElementById('length-note');
+      wrap.innerHTML = '';
+
+      // How many words the current category actually has at each length, so a
+      // category with an uneven spread greys out what it cannot offer.
+      const available = {};
+      WORDS[currentTopic].forEach(w => { available[w.length] = (available[w.length] || 0) + 1; });
+
+      applyCols(wrap, LENGTHS.length);
+
+      const opts = [{ v: 'any', label: 'Any', sub: 'all lengths', n: 1 }].concat(
+        LENGTHS.map(n => ({ v: n, label: String(n), sub: guessesFor(n) + ' tries', n: available[n] || 0 }))
+      );
+
+      opts.forEach(o => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'pick' + (o.v === 'any' ? ' wide' : '') + (o.v === lengthFilter ? ' on' : '');
+        btn.setAttribute('aria-pressed', String(o.v === lengthFilter));
+        if (o.n === 0) {
+          btn.disabled = true;
+          btn.title = 'No ' + o.v + '-letter words in ' + topicMeta(currentTopic).label;
+        }
+        const main = document.createElement('span');
+        main.textContent = o.label;
+        const sub = document.createElement('span');
+        sub.className = 'sub';
+        sub.textContent = o.n === 0 ? 'none' : o.sub;
+        btn.appendChild(main);
+        btn.appendChild(sub);
+        btn.addEventListener('click', () => {
+          btn.blur();
+          setLength(o.v);
+          closeModal(topicsModal);   // same as picking a category
+          showMessage(o.v === 'any' ? 'Any length' : o.v + '-letter words');
+        });
+        wrap.appendChild(btn);
+      });
+
+      if (lengthFilter === 'any') {
+        note.textContent = 'Words come at random from every length.';
+      } else {
+        const all = WORDS[currentTopic].filter(w => w.length === lengthFilter);
+        const got = foundFor(currentTopic).filter(w => w.length === lengthFilter).length;
+        note.textContent = lengthFilter + '-letter words only — ' + got + ' of ' +
+                           all.length + ' found in ' + topicMeta(currentTopic).label + '.';
+      }
+    }
+
+    // ---------- Category picker ----------
+    function renderTopics() {
+      const wrap = document.getElementById('topics-grid');
+      wrap.innerHTML = '';
+      CATEGORIES.forEach(cat => {
+        const found = foundFor(cat.id).length;
+        const total = WORDS[cat.id].length;
+        const complete = found === total;
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'cat-btn' +
+          (cat.id === currentTopic ? ' active' : '') +
+          (complete ? ' done' : '');
+
+        const icon = document.createElement('span');
+        icon.className = 'cat-icon';
+        icon.textContent = cat.icon;
+
+        const text = document.createElement('span');
+        text.className = 'cat-text';
+        const name = document.createElement('span');
+        name.className = 'cat-name';
+        name.textContent = cat.label;
+        const hint = document.createElement('span');
+        hint.className = 'cat-hint';
+        hint.textContent = cat.hint;
+        const prog = document.createElement('span');
+        prog.className = 'cat-prog';
+        prog.textContent = complete ? '★ all ' + total + ' found' : found + '/' + total + ' found';
+        text.appendChild(name);
+        text.appendChild(hint);
+        text.appendChild(prog);
+
+        btn.appendChild(icon);
+        btn.appendChild(text);
+        btn.addEventListener('click', () => { setTopic(cat.id); closeModal(topicsModal); });
+        wrap.appendChild(btn);
+      });
+    }
+
+    // ---------- Found words ----------
+    function renderFound() {
+      const wrap = document.getElementById('found-grid');
+      wrap.innerHTML = '';
+      CATEGORIES.forEach(cat => {
+        const list = foundFor(cat.id);
+        const all = WORDS[cat.id];
+        const complete = list.length === all.length;
+        const sec = document.createElement('div');
+        sec.className = 'found-section' + (cat.id === currentTopic ? ' current' : '');
+
+        const head = document.createElement('div');
+        head.className = 'found-head';
+        const title = document.createElement('span');
+        title.textContent = cat.icon + ' ' + cat.label;
+        const count = document.createElement('span');
+        count.className = 'found-count' + (complete ? ' done' : '');
+        count.textContent = list.length + '/' + all.length;
+        head.appendChild(title);
+        head.appendChild(count);
+        sec.appendChild(head);
+
+        // Grouped by length, so unfound words also show how long they are.
+        const lengths = [];
+        all.forEach(w => { if (lengths.indexOf(w.length) === -1) lengths.push(w.length); });
+        lengths.sort((a, b) => a - b);
+
+        lengths.forEach(len => {
+          const group = document.createElement('div');
+          group.className = 'len-group';
+          const tag = document.createElement('span');
+          tag.className = 'len-tag';
+          tag.textContent = len;
+          const chips = document.createElement('div');
+          chips.className = 'chips';
+          all.filter(w => w.length === len).forEach(w => {
+            const got = list.indexOf(w) !== -1;
+            const chip = document.createElement('span');
+            chip.className = 'chip ' + (got ? 'got' : 'locked');
+            chip.textContent = got ? w : '•'.repeat(len);
+            chips.appendChild(chip);
+          });
+          group.appendChild(tag);
+          group.appendChild(chips);
+          sec.appendChild(group);
+        });
+
+        wrap.appendChild(sec);
+      });
+    }
+
+    // ---------- Stats ----------
+    // The same card serves the global totals and any one category; the pill row
+    // at the top switches which block is on show.
+    function renderStatsScope() {
+      const wrap = document.getElementById('stats-scope-grid');
+      wrap.innerHTML = '';
+      applyCols(wrap, CATEGORIES.length);
+
+      const all = document.createElement('button');
+      all.type = 'button';
+      all.className = 'pick wide' + (statsView === 'all' ? ' on' : '');
+      all.textContent = 'All';
+      all.setAttribute('aria-pressed', String(statsView === 'all'));
+      all.addEventListener('click', () => { all.blur(); statsView = 'all'; renderStats(); });
+      wrap.appendChild(all);
+
+      CATEGORIES.forEach(cat => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'pick' + (statsView === cat.id ? ' on' : '');
+        btn.textContent = cat.icon;
+        btn.setAttribute('aria-label', cat.label + ' statistics');
+        btn.setAttribute('aria-pressed', String(statsView === cat.id));
+        btn.addEventListener('click', () => { btn.blur(); statsView = cat.id; renderStats(); });
+        wrap.appendChild(btn);
+      });
+    }
+
+    function renderStats() {
+      const s = loadStats();
+      const scoped = statsView === 'all' ? s : statsFor(s, statsView);
+
+      renderStatsScope();
+
+      const label = document.getElementById('stats-scope-label');
+      if (statsView === 'all') {
+        label.textContent = 'Every category';
+      } else {
+        const cat = topicMeta(statsView);
+        label.textContent = cat.label + ' — ' + foundFor(cat.id).length + '/' +
+                            WORDS[cat.id].length + ' words found';
+      }
+
+      const winPct = scoped.played > 0
+        ? Math.max(0, Math.min(100, Math.round((scoped.won / scoped.played) * 100)))
+        : 0;
+      document.getElementById('stat-played').textContent = scoped.played;
+      document.getElementById('stat-winpct').textContent = winPct;
+      document.getElementById('stat-cur').textContent    = scoped.currentStreak;
+      document.getElementById('stat-max').textContent    = scoped.maxStreak;
+
+      const distEl = document.getElementById('distribution');
+      distEl.innerHTML = '';
+      const max = Math.max(1, ...scoped.distribution);
+      // Normally DIST_BUCKETS rows, but show more if an older save recorded
+      // wins beyond that so no result is hidden.
+      let rows = DIST_BUCKETS;
+      for (let i = scoped.distribution.length - 1; i >= rows; i--) {
+        if (scoped.distribution[i] > 0) { rows = i + 1; break; }
+      }
+      for (let i = 0; i < rows; i++) {
+        const row = document.createElement('div');
+        row.className = 'dist-row';
+        const rowLabel = document.createElement('div');
+        rowLabel.textContent = String(i + 1);
+        const bar = document.createElement('div');
+        // lastWinRow is stored inside each block, so it already refers to
+        // whichever scope is on show — no need to check the current category.
+        bar.className = 'dist-bar' + (i === scoped.lastWinRow ? ' highlight' : '');
+        const count = scoped.distribution[i];
+        bar.style.width = Math.max(8, (count / max) * 100) + '%';
+        bar.textContent = String(count);
+        row.appendChild(rowLabel);
+        row.appendChild(bar);
+        distEl.appendChild(row);
+      }
+
+      const noGames = scoped.played === 0;
+      const empty = document.getElementById('stats-empty');
+      empty.textContent = STORAGE_OK
+        ? 'No games here yet.'
+        : 'No games here yet — and this page can’t save progress.';
+      empty.hidden = !noGames;
+      document.getElementById('dist-head').hidden = noGames;
+      distEl.hidden = noGames;
+      shareBtn.disabled = !lastShareText;
+    }
+
+    // ---------- Modal helpers ----------
+    // A dialog needs the rest of the page taken out of the tab order, or Tab
+    // walks straight out of it into the 40-odd buttons behind — and focus has
+    // to land inside the dialog for it to be announced at all. `inert` does
+    // both in current browsers and is a harmless no-op in older ones.
+    const gameEl = document.querySelector('main.game');
+    let focusBeforeModal = null;
+
+    function setBackgroundInert(on) {
+      [gameEl, winOverlay, propLayer].forEach(el => {
+        if (!el) return;
+        if (on) el.setAttribute('inert', '');
+        else el.removeAttribute('inert');
+      });
+    }
+
+    // `trigger` is passed explicitly because the click handlers blur the button
+    // first (to shed the sticky focus ring on touch), which would otherwise
+    // leave document.activeElement as <body> and lose the return target.
+    function openModal(modal, trigger) {
+      focusBeforeModal = trigger ||
+        (document.activeElement === document.body ? null : document.activeElement);
+      modal.classList.add('active');
+      modal.setAttribute('aria-hidden', 'false');
+      setBackgroundInert(true);
+      const card = modal.querySelector('.modal-card');
+      if (card && card.focus) { try { card.focus(); } catch (_) {} }
+    }
+
+    function closeModal(modal) {
+      modal.classList.remove('active');
+      modal.setAttribute('aria-hidden', 'true');
+      if (anyModalOpen()) return;
+      setBackgroundInert(false);
+      // The length chip is rebuilt on every new word, so the captured node may
+      // be detached by now; only refocus something still on the page.
+      if (focusBeforeModal && focusBeforeModal.focus && document.contains(focusBeforeModal)) {
+        try { focusBeforeModal.focus(); } catch (_) {}
+      }
+      focusBeforeModal = null;
+    }
+    function anyModalOpen() {
+      return topicsModal.classList.contains('active') ||
+             foundModal.classList.contains('active') ||
+             statsModal.classList.contains('active');
+    }
+
+    // ---------- Wiring ----------
+    // Show first, then fill: the pill grids size themselves from the measured
+    // width, and a display:none modal measures zero.
+    function openTopics(trigger) { openModal(topicsModal, trigger); renderTopics(); renderLengths(); }
+    function openStats(trigger)  { openModal(statsModal, trigger); renderStats(); }
+    function openFound(trigger)  { openModal(foundModal, trigger); renderFound(); }
+
+    retryBtn.addEventListener('click', () => {
+      retryBtn.blur();
+      if (busy()) return;          // let the reveal finish and be counted
+      clearCurrentAnswer();
+      reset();
+    });
+    themeBtn.addEventListener('click', () => { themeBtn.blur(); setTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'); });
+    topicsBtn.addEventListener('click', () => { topicsBtn.blur(); openTopics(topicsBtn); });
+    foundBtn.addEventListener('click',  () => { foundBtn.blur(); openFound(foundBtn); });
+    statsBtn.addEventListener('click',  () => { statsBtn.blur(); openStats(statsBtn); });
+    shareBtn.addEventListener('click',  share);
+
+    document.querySelectorAll('[data-close]').forEach(el => {
+      el.addEventListener('click', () => closeModal(document.getElementById(el.dataset.close)));
+    });
+
+    // Rotating the phone changes how many pills fit per row; re-lay out
+    // whichever sheet is open so the grid never goes stale.
+    let resizeTimer = null;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        if (topicsModal.classList.contains('active')) { renderTopics(); renderLengths(); }
+        if (statsModal.classList.contains('active')) renderStats();
+      }, 120);
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      if (anyModalOpen()) {
+        if (e.key === 'Escape') {
+          e.preventDefault();
+          [topicsModal, foundModal, statsModal].forEach(m => closeModal(m));
+        }
+        return;
+      }
+      if (e.key === 'Enter')     { e.preventDefault(); return handleKey('ENTER'); }
+      if (e.key === 'Backspace') { e.preventDefault(); return handleKey('BACK'); }
+      const k = (e.key || '').toUpperCase();
+      if (/^[A-Z]$/.test(k)) handleKey(k);
+    });
+
+    reset();
+  })();
+  </script>
+</body>
+</html>
